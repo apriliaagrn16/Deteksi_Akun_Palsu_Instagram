@@ -67,7 +67,6 @@ if page == "Home":
         plt.title("Confusion Matrix")
         st.pyplot(fig_cm)
 
-        accuracy = accuracy_score(y_true, y_pred)
         st.subheader("🎯 Akurasi Model")
         st.markdown(f"Model memiliki akurasi sebesar **95%**")
 

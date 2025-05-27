@@ -7,25 +7,23 @@ import numpy as np
 import matplotlib.pyplot as plt
 from PIL import Image
 from streamlit_option_menu import option_menu
-from sklearn.metrics import classification_report, confusion_matrix
-from sklearn.metrics import accuracy_score
+from sklearn.metrics import accuracy_score, confusion_matrix
 
 st.set_page_config(page_title="Deteksi Akun Palsu", page_icon="🔍", layout="wide")
 with st.sidebar:
     page = option_menu("Detec Fake Account Instagram", ["Home", 'Detection'], 
         icons=['house', 'gear'], menu_icon="eye", default_index=1)
     page
+
 # Load model dan data
 model = joblib.load("random_forest_model.pkl")
 scaler = joblib.load("scaler.pkl")
 features = joblib.load("features.pkl")
 
-
 # Load hasil validasi
 data = pd.read_csv("data_val.csv")
 y_pred = joblib.load("y_val_pred.pkl")  # prediksi asli dari training
 y_true = data["fake"]
-X = data.drop('fake', axis=1)
 
 feature_defaults = {
     "profile pic": (0, 1, 1, 1),
@@ -55,28 +53,28 @@ if page == "Home":
         """)
 
     with tab2:
-        st.subheader("🔍 Confusion Matrix (Hasil dari Training)")
+        st.subheader("🔍 Confusion Matrix (Hasil dari Validasi)")
         st.markdown("Matriks ini menunjukkan jumlah prediksi yang benar dan salah untuk masing-masing kelas.")
-        cm = np.array([[55, 5], [1, 57]])
+        cm = confusion_matrix(y_true, y_pred)
         fig_cm, ax_cm = plt.subplots()
         sns.heatmap(cm, annot=True, fmt='d', cmap='Blues',
                     xticklabels=["Real (0)", "Fake (1)"],
-                    yticklabels=["Real (0)", "Fake (1)"])
+                    yticklabels=["Real (0)", "Fake (1)"], ax=ax_cm)
         plt.xlabel("Predicted Label")
         plt.ylabel("True Label")
         plt.title("Confusion Matrix")
         st.pyplot(fig_cm)
 
+        accuracy = accuracy_score(y_true, y_pred)
         st.subheader("🎯 Akurasi Model")
-        st.markdown(f"Model memiliki akurasi sebesar **95%**")
+        st.markdown(f"Model memiliki akurasi sebesar **{accuracy:.2%}** pada data validasi.")
 
         st.subheader("💡 Feature Importance")
         importances = model.feature_importances_
-        feat_names = X.columns
-        fi_df = pd.DataFrame({'Feature': feat_names, 'Importance': importances}).sort_values(by='Importance', ascending=False)
+        fi_df = pd.DataFrame({'Feature': features, 'Importance': importances}).sort_values(by='Importance', ascending=False)
 
         fig_fi, ax_fi = plt.subplots(figsize=(8, 6))
-        sns.barplot(x='Importance', y='Feature', data=fi_df, palette='viridis')
+        sns.barplot(x='Importance', y='Feature', data=fi_df, palette='viridis', ax=ax_fi)
         plt.title("Feature Importance dari Model Random Forest")
         plt.xlabel("Tingkat Kepentingan")
         plt.ylabel("Fitur")

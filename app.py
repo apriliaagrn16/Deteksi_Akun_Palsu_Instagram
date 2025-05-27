@@ -8,6 +8,7 @@ import matplotlib.pyplot as plt
 from PIL import Image
 from streamlit_option_menu import option_menu
 from sklearn.metrics import classification_report, confusion_matrix
+from sklearn.metrics import accuracy_score
 
 st.set_page_config(page_title="Deteksi Akun Palsu", page_icon="🔍", layout="wide")
 with st.sidebar:
@@ -67,14 +68,9 @@ if page == "Home":
         st.pyplot(fig_cm)
 
        
-        report = classification_report(y_true, y_pred, output_dict=True)
-        df_report = pd.DataFrame(report).transpose()
-
-        st.subheader("📋 Classification Report")
-        st.markdown("Hasil evaluasi dari model")
-        st.dataframe(df_report.style.format({
-            'precision': '{:.2f}', 'recall': '{:.2f}', 'f1-score': '{:.2f}', 'support': '{:.0f}'
-        }))
+        accuracy = accuracy_score(y_true, y_pred)
+        st.subheader("🎯 Akurasi Model")
+        st.markdown(f"Model memiliki akurasi sebesar **{accuracy:.2%}** pada data validasi.")
 
         st.subheader("💡 Feature Importance")
         importances = model.feature_importances_

@@ -56,7 +56,7 @@ if page == "Home":
     with tab2:
         st.subheader("🔍 Confusion Matrix (Hasil dari Training)")
         st.markdown("Matriks ini menunjukkan jumlah prediksi yang benar dan salah untuk masing-masing kelas.")
-        cm = np.array([[53, 5], [5, 53]])
+        cm = np.array([[55, 5], [1, 57]])
         fig_cm, ax_cm = plt.subplots()
         sns.heatmap(cm, annot=True, fmt='d', cmap='Blues',
                     xticklabels=["Real (0)", "Fake (1)"],

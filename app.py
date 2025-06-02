@@ -20,7 +20,6 @@ model = joblib.load("random_forest_model.pkl")
 scaler = joblib.load("scaler.pkl")
 features = joblib.load("features.pkl")
 
-
 feature_defaults = {
     "profile pic": (0, 1, 1, 1),
     "name==username": (0, 1, 1, 0),
@@ -61,7 +60,6 @@ if page == "Home":
         plt.title("Confusion Matrix")
         st.pyplot(fig_cm)
 
-        accuracy = accuracy_score(y_true, y_pred)
         st.subheader("🎯 Akurasi Model")
         st.markdown(f"Model memiliki akurasi sebesar **{accuracy:.2%}** pada data validasi.")
 

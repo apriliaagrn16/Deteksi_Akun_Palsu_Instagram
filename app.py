@@ -7,7 +7,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 from PIL import Image
 from streamlit_option_menu import option_menu
-from sklearn.metrics import accuracy_score, confusion_matrix
+
 
 st.set_page_config(page_title="Deteksi Akun Palsu", page_icon="🔍", layout="wide")
 with st.sidebar:

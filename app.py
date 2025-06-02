@@ -20,10 +20,6 @@ model = joblib.load("random_forest_model.pkl")
 scaler = joblib.load("scaler.pkl")
 features = joblib.load("features.pkl")
 
-# Load hasil validasi
-data = pd.read_csv("data_val.csv")
-y_pred = joblib.load("y_val_pred.pkl")  # prediksi asli dari training
-y_true = data["fake"]
 
 feature_defaults = {
     "profile pic": (0, 1, 1, 1),

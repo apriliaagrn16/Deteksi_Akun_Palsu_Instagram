@@ -8,7 +8,6 @@ import matplotlib.pyplot as plt
 from PIL import Image
 from streamlit_option_menu import option_menu
 
-
 st.set_page_config(page_title="Deteksi Akun Palsu", page_icon="🔍", layout="wide")
 with st.sidebar:
     page = option_menu("Detec Fake Account Instagram", ["Home", 'Detection'], 
@@ -19,7 +18,6 @@ with st.sidebar:
 model = joblib.load("random_forest_model.pkl")
 scaler = joblib.load("scaler.pkl")
 features = joblib.load("features.pkl")
-
 
 feature_defaults = {
     "profile pic": (0, 1, 1, 1),

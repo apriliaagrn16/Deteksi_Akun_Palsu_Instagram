@@ -11,7 +11,7 @@ from streamlit_option_menu import option_menu
 st.set_page_config(page_title="Deteksi Akun Palsu", page_icon="🔍", layout="wide")
 with st.sidebar:
     page = option_menu("Detec Fake Account Instagram", ["Home", 'Detection'], 
-        icons=['house', 'gear'], menu_icon="eye", default_index=1)
+        icons=['house', 'gear'], menu_icon="eye", default_index=0)
     page
 
 # Load model dan data

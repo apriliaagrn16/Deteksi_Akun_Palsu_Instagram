@@ -12,7 +12,7 @@ st.set_page_config(page_title="Deteksi Akun Palsu", page_icon="🔍", layout="wi
 with st.sidebar:
     page = option_menu("Detec Fake Account Instagram", ["Home", 'Detection'], 
         icons=['house', 'gear'], menu_icon="eye", default_index=0)
-    page
+    
 
 # Load model dan data
 model = joblib.load("random_forest_model.pkl")

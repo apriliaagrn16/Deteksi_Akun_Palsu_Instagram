@@ -32,46 +32,44 @@ feature_defaults = {
 
 if page == "Home":
     st.title("🏠 Halaman Utama")
-    tab1, tab2 = st.tabs(["📖 Informasi", "📊 Visualisasi"])
+   
+    st.subheader("🧠 Tentang Model")
+    st.markdown("""
+    Aplikasi ini menggunakan model **Random Forest Classifier** untuk mendeteksi akun Instagram palsu.
+    Model dilatih berdasarkan fitur numerik seperti:
+    - Rasio angka pada username dan nama
+    - Jumlah kata pada nama lengkap
+    - Panjang deskripsi
+    - Jumlah followers, following, postingan
+    - Adanya URL, status privat, dan foto profil
+    """)
 
-    with tab1:
-        st.subheader("🧠 Tentang Model")
-        st.markdown("""
-        Aplikasi ini menggunakan model **Random Forest Classifier** untuk mendeteksi akun Instagram palsu.
-        Model dilatih berdasarkan fitur numerik seperti:
-        - Rasio angka pada username dan nama
-        - Jumlah kata pada nama lengkap
-        - Panjang deskripsi
-        - Jumlah followers, following, postingan
-        - Adanya URL, status privat, dan foto profil
-        """)
+    
+    st.subheader("🔍 Confusion Matrix (Hasil dari Training)")
+    st.markdown("Matriks ini menunjukkan jumlah prediksi yang benar dan salah untuk masing-masing kelas.")
+    cm = np.array([[55, 5], [1, 57]])
+    fig_cm, ax_cm = plt.subplots()
+    sns.heatmap(cm, annot=True, fmt='d', cmap='Blues',
+                xticklabels=["Real (0)", "Fake (1)"],
+                yticklabels=["Real (0)", "Fake (1)"])
+    plt.xlabel("Predicted Label")
+    plt.ylabel("True Label")
+    plt.title("Confusion Matrix")
+    st.pyplot(fig_cm)
 
-    with tab2:
-        st.subheader("🔍 Confusion Matrix (Hasil dari Training)")
-        st.markdown("Matriks ini menunjukkan jumlah prediksi yang benar dan salah untuk masing-masing kelas.")
-        cm = np.array([[55, 5], [1, 57]])
-        fig_cm, ax_cm = plt.subplots()
-        sns.heatmap(cm, annot=True, fmt='d', cmap='Blues',
-                    xticklabels=["Real (0)", "Fake (1)"],
-                    yticklabels=["Real (0)", "Fake (1)"])
-        plt.xlabel("Predicted Label")
-        plt.ylabel("True Label")
-        plt.title("Confusion Matrix")
-        st.pyplot(fig_cm)
+    st.subheader("🎯 Akurasi Model")
+    st.markdown(f"Model memiliki akurasi sebesar **95%**")
 
-        st.subheader("🎯 Akurasi Model")
-        st.markdown(f"Model memiliki akurasi sebesar **95%**")
+    st.subheader("💡 Feature Importance")
+    importances = model.feature_importances_
+    fi_df = pd.DataFrame({'Feature': features, 'Importance': importances}).sort_values(by='Importance', ascending=False)
 
-        st.subheader("💡 Feature Importance")
-        importances = model.feature_importances_
-        fi_df = pd.DataFrame({'Feature': features, 'Importance': importances}).sort_values(by='Importance', ascending=False)
-
-        fig_fi, ax_fi = plt.subplots(figsize=(8, 6))
-        sns.barplot(x='Importance', y='Feature', data=fi_df, palette='viridis', ax=ax_fi)
-        plt.title("Feature Importance dari Model Random Forest")
-        plt.xlabel("Tingkat Kepentingan")
-        plt.ylabel("Fitur")
-        st.pyplot(fig_fi)
+    fig_fi, ax_fi = plt.subplots(figsize=(8, 6))
+    sns.barplot(x='Importance', y='Feature', data=fi_df, palette='viridis', ax=ax_fi)
+    plt.title("Feature Importance dari Model Random Forest")
+    plt.xlabel("Tingkat Kepentingan")
+    plt.ylabel("Fitur")
+    st.pyplot(fig_fi)
 
 elif page == "Detection":
     st.title("🧪 Deteksi Akun Instagram Palsu")

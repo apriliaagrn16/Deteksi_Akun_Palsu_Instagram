@@ -6,3 +6,5 @@ matplotlib
 seaborn
 Pillow
 streamlit-option-menu
+requests
+

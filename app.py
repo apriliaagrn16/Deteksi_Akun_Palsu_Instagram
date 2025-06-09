@@ -15,11 +15,11 @@ RAPIDAPI_KEY = st.secrets["PILOTERR_API_KEY"]
 
 
 # ==== KONFIGURASI STREAMLIT ====
-st.set_page_config(page_title="Deteksi Akun Palsu", page_icon="🔍", layout="wide")
+st.set_page_config(page_title="Prediksi Akun Palsu", page_icon="🔍", layout="wide")
 
 # ==== SIDEBAR ====
 with st.sidebar:
-    page = option_menu("Detec Fake Account Instagram", ["Home", 'Detection'], 
+    page = option_menu("Predict Fake Account Instagram", ["Home", 'Prediction'], 
         icons=['house', 'gear'], menu_icon="eye", default_index=0)
 
 # ==== LOAD MODEL & FITUR ====
@@ -33,7 +33,7 @@ if page == "Home":
 
     st.subheader("🧠 Tentang Model")
     st.markdown("""
-    Aplikasi ini menggunakan model **Random Forest Classifier** untuk mendeteksi akun Instagram palsu.
+    Aplikasi ini menggunakan model **Random Forest Classifier** untuk memprediksi akun Instagram palsu.
     Model dilatih berdasarkan fitur numerik seperti:
     - Rasio angka pada username dan nama
     - Jumlah kata pada nama lengkap
@@ -65,8 +65,8 @@ if page == "Home":
     st.pyplot(fig_fi)
 
 # ==== PAGE: DETECTION ====
-elif page == "Detection":
-    st.title("🧪 Deteksi Akun Instagram Palsu")
+elif page == "Prediction":
+    st.title("🧪 Prediksi Akun Instagram Palsu")
     tab1, tab2, = st.tabs(["📤 Upload CSV", "🔗 URL IG"])
 
     # === Tab 1: Upload CSV ===

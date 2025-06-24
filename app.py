@@ -119,9 +119,9 @@ elif page == "Prediction":
                 "Following/Followers": round(data_user.get("following", 0) / max(1, data_user.get("followers", 1)), 2),
                 "Posts": jumlah_post,
                 "Posts/Followers": round(jumlah_post / max(1, data_user.get("followers", 1)), 2),
-                "Bio": data_user.get("description", ""),
-                "Profile Picture": "Ya" if data_user.get("avatar") else "Tidak",
-                "External Link": "Ya" if data_user.get("website") else "Tidak",
+                "Bio": len(data_user.get("description", "")),  # pakai panjang string
+                "Profile Picture": 1 if data_user.get("avatar") else 0,
+                "External Link": 1 if data_user.get("website") else 0,
                 "Mutual Friends": jumlah_mutual,
                 "Threads": jumlah_threads
             }

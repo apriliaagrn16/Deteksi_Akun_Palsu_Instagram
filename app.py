@@ -13,7 +13,6 @@ from streamlit_option_menu import option_menu
 
 RAPIDAPI_KEY = st.secrets["PILOTERR_API_KEY"]
 
-
 # ==== KONFIGURASI STREAMLIT ====
 st.set_page_config(page_title="Prediksi Akun Palsu", page_icon="🔍", layout="wide")
 
@@ -24,7 +23,6 @@ with st.sidebar:
 
 # ==== LOAD MODEL & FITUR ====
 model = joblib.load("random_forest_model.pkl")
-scaler = joblib.load("scaler.pkl")
 features = joblib.load("features.pkl")
 
 # ==== PAGE: HOME ====
@@ -67,7 +65,7 @@ if page == "Home":
 # ==== PAGE: DETECTION ====
 elif page == "Prediction":
     st.title("🧪 Prediksi Akun Instagram Palsu")
-    tab1, tab2, = st.tabs(["📤 Upload CSV", "🔗 URL IG"])
+    tab1, tab2 = st.tabs(["📤 Upload CSV", "🔗 URL IG"])
 
     # === Tab 1: Upload CSV ===
     with tab1:
@@ -80,8 +78,7 @@ elif page == "Prediction":
             df_input = pd.read_csv(uploaded_file)
             try:
                 df_pred = df_input.copy()
-                df_pred_scaled = scaler.transform(df_pred[features])
-                pred = model.predict(df_pred_scaled)
+                pred = model.predict(df_pred[features])
                 df_pred["predict"] = pred
                 st.success("✅ Prediksi berhasil dilakukan")
                 st.dataframe(df_pred)
@@ -91,21 +88,18 @@ elif page == "Prediction":
             except Exception as e:
                 st.error(f"Terjadi kesalahan saat prediksi: {e}")
 
-    # === Tab 3: URL Instagram (RapidAPI - Fast Reliable Scraper) ===
+    # === Tab 2: URL Instagram ===
     with tab2:
         st.markdown("### Masukkan Link Akun Instagram")
         ig_url = st.text_input("Contoh: https://www.instagram.com/username/")
-        # User input manual jumlah postingan
         jumlah_post = st.number_input("Jumlah Postingan", min_value=0, max_value=10000, value=0, step=1)
 
         if st.button("Ambil Data & Prediksi"):
             try:
                 username = ig_url.strip().split("/")[-2]
-
-                # Gunakan API Piloterr
                 url = "https://piloterr.com/api/v2/instagram/user/info"
                 headers = {
-                    "x-api-key": RAPIDAPI_KEY,  # pastikan RAPIDAPI_KEY berisi key dari Piloterr
+                    "x-api-key": RAPIDAPI_KEY,
                     "Content-Type": "application/json"
                 }
                 params = {"query": username}
@@ -114,7 +108,6 @@ elif page == "Prediction":
                     raise Exception(f"API Error: {response.status_code}, {response.text}")
                 data_user = response.json()
 
-                # Mapping sesuai fitur
                 data_instagram = {
                     "fullname words": len(data_user.get("name", "").split()),
                     "nums/length fullname": round(len(re.findall(r'\d', data_user.get("name", ""))) / max(1, len(data_user.get("name", ""))), 2),
@@ -129,11 +122,8 @@ elif page == "Prediction":
                     "#follows": int(data_user.get("following", 0)),
                 }
 
-
-                # Prediksi & tampilkan hasil
                 df_link = pd.DataFrame([[data_instagram[feat] for feat in features]], columns=features)
-                df_link_scaled = scaler.transform(df_link)
-                pred_link = model.predict(df_link_scaled)[0]
+                pred_link = model.predict(df_link)[0]
 
                 if pred_link == 0:
                     st.success(f"✅ Akun **{username}** diprediksi sebagai: **Akun Asli**")

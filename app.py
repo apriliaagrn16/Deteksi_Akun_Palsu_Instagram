@@ -41,7 +41,7 @@ if page == "Home":
     """)
 
     st.subheader("🔍 Confusion Matrix (Hasil dari Training)")
-    cm = np.array([[55, 5], [1, 57]])
+    cm = np.array([[693, 57], [20, 730]])
     fig_cm, ax_cm = plt.subplots()
     sns.heatmap(cm, annot=True, fmt='d', cmap='Blues',
                 xticklabels=["Real (0)", "Fake (1)"],

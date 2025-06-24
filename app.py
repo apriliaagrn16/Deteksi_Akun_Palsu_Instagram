@@ -107,6 +107,9 @@ elif page == "Prediction":
                 if response.status_code != 200:
                     raise Exception(f"API Error: {response.status_code}, {response.text}")
                 data_user = response.json()
+                st.subheader("📦 Isi Response JSON")
+                st.json(data_user)
+
 
                 data_instagram = {
                     "fullname words": len(data_user.get("name", "").split()),

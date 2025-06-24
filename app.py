@@ -93,6 +93,8 @@ elif page == "Prediction":
         st.markdown("### Masukkan Link Akun Instagram")
         ig_url = st.text_input("Contoh: https://www.instagram.com/username/")
         jumlah_post = st.number_input("Jumlah Postingan", min_value=0, max_value=10000, value=0, step=1)
+        jumlah_mutual = st.number_input("Jumlah Mutual Friends", min_value=0, max_value=10000, value=0, step=1)
+        jumlah_threads = st.number_input("Jumlah Threads", min_value=0, max_value=10000, value=0, step=1)
 
         if st.button("Ambil Data & Prediksi"):
             try:
@@ -112,18 +114,17 @@ elif page == "Prediction":
 
 
                 data_instagram = {
-                    "fullname words": len(data_user.get("name", "").split()),
-                    "nums/length fullname": round(len(re.findall(r'\d', data_user.get("name", ""))) / max(1, len(data_user.get("name", ""))), 2),
-                    "nums/length username": round(len(re.findall(r'\d', data_user.get("username", ""))) / max(1, len(data_user.get("username", ""))), 2),
-                    "profile pic": 1 if data_user.get("avatar") else 0,
-                    "name==username": 1 if data_user.get("name", "").lower() == data_user.get("username", "").lower() else 0,
-                    "description length": len(data_user.get("description", "")),
-                    "external URL": 1 if data_user.get("website") else 0,
-                    "private": int(data_user.get("private", False)),
-                    "#posts": jumlah_post,
-                    "#followers": int(data_user.get("followers", 0)),
-                    "#follows": int(data_user.get("following", 0)),
-                }
+                "Followers": int(data_user.get("followers", 0)),
+                "Following": int(data_user.get("following", 0)),
+                "Following/Followers": round(data_user.get("following", 0) / max(1, data_user.get("followers", 1)), 2),
+                "Posts": jumlah_post,
+                "Posts/Followers": round(jumlah_post / max(1, data_user.get("followers", 1)), 2),
+                "Bio": data_user.get("description", ""),
+                "Profile Picture": "Ya" if data_user.get("avatar") else "Tidak",
+                "External Link": "Ya" if data_user.get("website") else "Tidak",
+                "Mutual Friends": jumlah_mutual,
+                "Threads": jumlah_threads
+            }
 
                 df_link = pd.DataFrame([[data_instagram[feat] for feat in features]], columns=features)
                 pred_link = model.predict(df_link)[0]

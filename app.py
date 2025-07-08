@@ -22,8 +22,29 @@ with st.sidebar:
         icons=['house', 'gear'], menu_icon="eye", default_index=0)
 
 # ==== LOAD MODEL & FITUR ====
+def download_file_from_github(raw_url, local_filename):
+    if not os.path.exists(local_filename):
+        response = requests.get(raw_url)
+        if response.status_code == 200:
+            with open(local_filename, 'wb') as f:
+                f.write(response.content)
+        else:
+            raise Exception(f"Gagal download {raw_url}: {response.status_code}")
+
+# Ganti dengan user/repo kamu
+base_url = "https://raw.githubusercontent.com/apriliaagrn16/dataset-model-fake-instagram/main/"
+
+# Daftar file yang ingin didownload
+file_list = ["random_forest_model.pkl", "features.pkl"]
+
+# Download semua file
+for file_name in file_list:
+    download_file_from_github(base_url + file_name, file_name)
+
+# Load model dan fitur
 model = joblib.load("random_forest_model.pkl")
 features = joblib.load("features.pkl")
+
 
 # ==== PAGE: HOME ====
 if page == "Home":

@@ -4,3 +4,8 @@ backgroundColor = "#FFFFFF"
 secondaryBackgroundColor = "#51a4b5"
 textColor = "#462806"
 font = "sans serif"
+
+[server]
+maxUploadSize = 200
+headless = true
+enableStaticServing = true

@@ -62,7 +62,7 @@ if page == "Home":
     """)
 
     st.subheader("🔍 Confusion Matrix (Hasil dari Training)")
-    cm = np.array([[693, 57], [20, 730]])
+    cm = np.array([[708, 42], [6, 744]])
     fig_cm, ax_cm = plt.subplots()
     sns.heatmap(cm, annot=True, fmt='d', cmap='Blues',
                 xticklabels=["Real (0)", "Fake (1)"],
@@ -73,7 +73,7 @@ if page == "Home":
     st.pyplot(fig_cm)
 
     st.subheader("🎯 Akurasi Model")
-    st.markdown("Model memiliki akurasi sebesar **95%**")
+    st.markdown("Model memiliki akurasi sebesar **96,8%**")
 
     st.subheader("💡 Feature Importance")
     importances = model.feature_importances_

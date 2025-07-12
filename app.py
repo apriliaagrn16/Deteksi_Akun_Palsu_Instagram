@@ -168,8 +168,6 @@ elif page == "Prediction":
         > ✅ Pastikan nama kolom dan format nilai sudah sesuai agar sistem dapat memproses prediksi dengan benar.
         """)
 
-        st.image(Image.open("gambar/data.png"), width=300)
-
         uploaded_file = st.file_uploader("Upload file CSV:", type=["csv"])
         
         if uploaded_file:

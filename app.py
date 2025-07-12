@@ -49,17 +49,42 @@ features = joblib.load("features.pkl")
 # ==== PAGE: HOME ====
 if page == "Home":
     st.title("🏠 Halaman Utama")
-
-    st.subheader("🧠 Tentang Model")
     st.markdown("""
-    Aplikasi ini menggunakan model **Random Forest Classifier** untuk memprediksi akun Instagram palsu.
-    Model dilatih berdasarkan fitur numerik seperti:
-    - Rasio angka pada username dan nama
-    - Jumlah kata pada nama lengkap
-    - Panjang deskripsi
-    - Jumlah followers, following, postingan
-    - Adanya URL, status privat, dan foto profil
-    """)
+        ### 👋 Selamat Datang!
+
+        Aplikasi ini dirancang untuk membantu Anda **mendeteksi akun Instagram palsu** secara otomatis menggunakan model machine learning.
+
+        ---
+        ### 🧠 Tentang Aplikasi
+
+        Model yang digunakan adalah **Random Forest Classifier**, yang dilatih dari data numerik akun Instagram. Tujuannya adalah mengidentifikasi karakteristik akun-akun mencurigakan berdasarkan pola tertentu.
+
+        Model ini mempertimbangkan beberapa fitur seperti:
+        - Jumlah followers, following, postingan
+        - Status privat dan adanya bio
+        - Keberadaan foto profil, URL, dan Threads
+        - Jumlah mutual friends
+
+        ---
+        ### ⚙️ Cara Menggunakan
+
+        1. Masuk ke tab **Prediction**
+        2. Pilih salah satu metode:
+        - 📤 Upload file CSV
+        - 🔗 Masukkan URL Instagram dan data manual
+        3. Klik tombol prediksi untuk melihat hasilnya
+        4. Unduh hasil dalam bentuk CSV (jika upload file)
+
+        ---
+        ### 📂 Informasi Dataset
+
+        Dataset yang digunakan adalah hasil konversi dari data akun Instagram ke bentuk numerik (0/1 dan angka). File CSV yang digunakan untuk prediksi harus mengikuti format yang telah dijelaskan di tab Prediction.
+
+        ---
+        ### ⚠️ Disclaimer
+
+        Hasil prediksi hanya bersifat indikatif dan tidak menjamin 100% keakuratan. Gunakan sebagai alat bantu, bukan satu-satunya penilaian.
+        """)
 
     st.subheader("🔍 Confusion Matrix (Hasil dari Training)")
     cm = np.array([[708, 42], [6, 744]])

@@ -54,7 +54,6 @@ features = joblib.load("features.pkl")
 
 # ==== PAGE: HOME ====
 if page == "Home":
-    st.title("`🏠 Halaman Utama`")
     st.markdown("## 🏠 Halaman Utama")
     st.markdown("""
     ### 👋 Selamat Datang!

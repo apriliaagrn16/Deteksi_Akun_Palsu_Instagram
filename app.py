@@ -20,8 +20,8 @@ st.set_page_config(page_title="Prediksi Akun Palsu", page_icon="🔍", layout="w
 with st.sidebar:
     page = option_menu(
         "Predict Fake Account Instagram", 
-        ["Home", "Evaluasi Model", "Prediction"], 
-        icons=['house', 'bar-chart', 'robot'], 
+        ["Home", "Prediction"], 
+        icons=['house', 'robot'], 
         menu_icon="eye", 
         default_index=0
     )
@@ -55,45 +55,29 @@ features = joblib.load("features.pkl")
 # ==== PAGE: HOME ====
 if page == "Home":
     st.title("`🏠 Halaman Utama`")
+    st.markdown("## 🏠 Halaman Utama")
     st.markdown("""
-        ### 👋 Selamat Datang!
+    ### 👋 Selamat Datang!
 
-        Aplikasi ini dirancang untuk membantu Anda **mendeteksi akun Instagram palsu** secara otomatis menggunakan model machine learning.
+    Aplikasi ini dirancang untuk membantu Anda **mendeteksi akun Instagram palsu** secara otomatis menggunakan model machine learning.
 
-        ---
-        ### 🧠 Tentang Aplikasi
+    ---
+    ### 🧠 Tentang Aplikasi
 
-        Model yang digunakan adalah **Random Forest Classifier**, yang dilatih dari data numerik akun Instagram. Tujuannya adalah mengidentifikasi karakteristik akun-akun mencurigakan berdasarkan pola tertentu.
+    Model yang digunakan adalah **Random Forest Classifier**, yang dilatih dari data numerik akun Instagram. Tujuannya adalah mengidentifikasi karakteristik akun-akun mencurigakan berdasarkan pola tertentu.
 
-        Model ini mempertimbangkan beberapa fitur seperti:
-        - Jumlah followers, following, postingan
-        - Status privat dan adanya bio
-        - Keberadaan foto profil, URL, dan Threads
-        - Jumlah mutual friends
+    Model ini mempertimbangkan beberapa fitur seperti:
+    - Jumlah followers, following, postingan
+    - Status privat dan adanya bio
+    - Keberadaan foto profil, URL, dan Threads
+    - Jumlah mutual friends
 
-        ---
-        ### ⚙️ Cara Menggunakan
+    ---
+    ### 📊 Evaluasi Model
+    """)
 
-        1. Masuk ke tab **Prediction**
-        2. Pilih salah satu metode:
-        - 📤 Upload file CSV
-        - 🔗 Masukkan URL Instagram dan data manual
-        3. Klik tombol prediksi untuk melihat hasilnya
-        4. Unduh hasil dalam bentuk CSV (jika upload file)
-
-        ---
-        ### 📂 Informasi Dataset
-
-        Dataset yang digunakan adalah hasil konversi dari data akun Instagram ke bentuk numerik (0/1 dan angka). File CSV yang digunakan untuk prediksi harus mengikuti format yang telah dijelaskan di tab Prediction.
-
-        ---
-        ### ⚠️ Disclaimer
-
-        Hasil prediksi hanya bersifat indikatif dan tidak menjamin 100% keakuratan. Gunakan sebagai alat bantu, bukan satu-satunya penilaian.
-        """)
-
-elif page == "Evaluasi Model":
-    st.subheader("🔍 Confusion Matrix (Hasil dari Training)")
+    # === Confusion Matrix ===
+    st.subheader("🔍 Confusion Matrix (Hasil Training)")
     cm = np.array([[708, 42], [6, 744]])
     fig_cm, ax_cm = plt.subplots()
     sns.heatmap(cm, annot=True, fmt='d', cmap='Blues',
@@ -104,16 +88,27 @@ elif page == "Evaluasi Model":
     plt.title("Confusion Matrix")
     st.pyplot(fig_cm)
 
+    # === Akurasi ===
     st.subheader("🎯 Akurasi Model")
-    st.markdown("Model memiliki akurasi sebesar **96,8%**")
+    st.markdown("Model menghasilkan akurasi sebesar **96,8%** pada data latih, yang menunjukkan performa sangat baik dalam membedakan akun asli dan palsu.")
 
+    # === Feature Importance ===
     st.subheader("💡 Feature Importance")
     importances = model.feature_importances_
     fi_df = pd.DataFrame({'Feature': features, 'Importance': importances}).sort_values(by='Importance', ascending=False)
     fig_fi, ax_fi = plt.subplots(figsize=(8, 6))
     sns.barplot(x='Importance', y='Feature', data=fi_df, palette='viridis', ax=ax_fi)
-    plt.title("Feature Importance dari Model Random Forest")
+    plt.title("Kontribusi Fitur terhadap Prediksi")
     st.pyplot(fig_fi)
+
+    # Penutup
+    st.markdown("""
+    ---
+    ### ⚠️ Disclaimer
+
+    Hasil prediksi hanya bersifat indikatif dan tidak menjamin 100% keakuratan. Gunakan sebagai alat bantu, bukan satu-satunya penilaian.
+    """)
+
 
 # ==== PAGE: DETECTION ====
 elif page == "Prediction":

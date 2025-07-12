@@ -86,31 +86,10 @@ if page == "Home":
 # ==== PAGE: DETECTION ====
 elif page == "Prediction":
     st.title("🧪 Prediksi Akun Instagram Palsu")
-    tab1, tab2 = st.tabs(["📤 Upload CSV", "🔗 URL IG"])
+    tab1, tab2 = st.tabs(["🔗 URL IG", "📤 Upload CSV"])
 
-    # === Tab 1: Upload CSV ===
+    # === Tab 1: URL Instagram ===
     with tab1:
-        st.markdown("### Upload file CSV")
-        st.markdown("File CSV harus meliputi data berikut:")
-        st.image(Image.open("gambar/data.png"), width=300)
-
-        uploaded_file = st.file_uploader("Upload file CSV:", type=["csv"])
-        if uploaded_file:
-            df_input = pd.read_csv(uploaded_file)
-            try:
-                df_pred = df_input.copy()
-                pred = model.predict(df_pred[features])
-                df_pred["predict"] = pred
-                st.success("✅ Prediksi berhasil dilakukan")
-                st.dataframe(df_pred)
-
-                csv = df_pred.to_csv(index=False).encode("utf-8")
-                st.download_button("⬇️ Download Hasil Prediksi", data=csv, file_name="hasil_prediksi.csv", mime="text/csv")
-            except Exception as e:
-                st.error(f"Terjadi kesalahan saat prediksi: {e}")
-
-    # === Tab 2: URL Instagram ===
-    with tab2:
         st.markdown("### Masukkan Link Akun Instagram")
         ig_url = st.text_input("Contoh: https://www.instagram.com/username/")
         jumlah_post = st.number_input("Jumlah Postingan", min_value=0, max_value=10000, value=0, step=1)
@@ -160,3 +139,29 @@ elif page == "Prediction":
 
             except Exception as e:
                 st.error(f"Gagal mengambil data dari akun: {e}")
+
+    # === Tab 2: Upload CSV ===
+    with tab2:
+        st.markdown("### Upload file CSV")
+        st.markdown("File CSV harus meliputi data berikut:")
+        st.image(Image.open("gambar/data.png"), width=300)
+
+        uploaded_file = st.file_uploader("Upload file CSV:", type=["csv"])
+        
+        if uploaded_file:
+            df_input = pd.read_csv(uploaded_file)
+            st.success("✅ File berhasil diunggah")
+            st.dataframe(df_input)
+
+            if st.button("🔍 Lakukan Prediksi"):
+                try:
+                    df_pred = df_input.copy()
+                    pred = model.predict(df_pred[features])
+                    df_pred["predict"] = pred
+                    st.success("✅ Prediksi berhasil dilakukan")
+                    st.dataframe(df_pred)
+
+                    csv = df_pred.to_csv(index=False).encode("utf-8")
+                    st.download_button("⬇️ Download Hasil Prediksi", data=csv, file_name="hasil_prediksi.csv", mime="text/csv")
+                except Exception as e:
+                    st.error(f"Terjadi kesalahan saat prediksi: {e}")

@@ -18,8 +18,14 @@ st.set_page_config(page_title="Prediksi Akun Palsu", page_icon="🔍", layout="w
 
 # ==== SIDEBAR ====
 with st.sidebar:
-    page = option_menu("Predict Fake Account Instagram", ["Home", "Evaluasi Model" "Prediction"], 
-        icons=['house', 'bar-chart','gear'], menu_icon="eye", default_index=0)
+    page = option_menu(
+        "Predict Fake Account Instagram", 
+        ["Home", "Evaluasi Model", "Prediction"], 
+        icons=['house', 'bar-chart', 'robot'], 
+        menu_icon="eye", 
+        default_index=0
+    )
+
 
 # ==== LOAD MODEL & FITUR ====
 def download_file_from_github(raw_url, local_filename):

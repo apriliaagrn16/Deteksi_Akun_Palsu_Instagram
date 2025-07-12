@@ -136,7 +136,7 @@ elif page == "Prediction":
         ig_url = st.text_input("Contoh: https://www.instagram.com/username/")
         jumlah_post = st.number_input("Jumlah Postingan", min_value=0, max_value=10000, value=0, step=1)
         jumlah_mutual = st.number_input("Jumlah Mutual Friends", min_value=0, max_value=10000, value=0, step=1)
-        jumlah_threads = st.number_input("Jumlah Threads", min_value=0, max_value=10000, value=0, step=1)
+        jumlah_threads = st.number_input("Apakah memiliki Thread (0 untuk tidak ada dan 1 untuk ada)", min_value=0, max_value=10000, value=0, step=1)
 
         if st.button("Ambil Data & Prediksi"):
             try:

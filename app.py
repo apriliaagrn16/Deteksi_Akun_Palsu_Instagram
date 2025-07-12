@@ -143,7 +143,31 @@ elif page == "Prediction":
     # === Tab 2: Upload CSV ===
     with tab2:
         st.markdown("### Upload file CSV")
-        st.markdown("File CSV harus meliputi data berikut:")
+        st.markdown("""
+        ### 📄 Format Data CSV yang Dapat Digunakan
+
+        Untuk menggunakan fitur prediksi ini, pastikan file CSV Anda memiliki **11 kolom** dengan format sebagai berikut:
+
+        | No | Nama Kolom            | Tipe Data | Keterangan                                                    |
+        |----|------------------------|-----------|---------------------------------------------------------------|
+        | 1  | Username               | Teks      | Nama pengguna akun Instagram *(boleh dikosongkan)*            |
+        | 2  | Fullname               | Teks      | Nama lengkap pengguna *(boleh dikosongkan)*                   |
+        | 3  | Followers              | Angka     | Jumlah pengikut                                               |
+        | 4  | Following              | Angka     | Jumlah akun yang diikuti                                      |
+        | 5  | Posts                  | Angka     | Jumlah postingan                                              |
+        | 6  | External URL           | 0 / 1     | 1 jika ada tautan eksternal, 0 jika tidak                     |
+        | 7  | Has Profile Picture    | 0 / 1     | 1 jika punya foto profil, 0 jika tidak                        |
+        | 8  | Bio                    | 0 / 1     | 1 jika punya bio, 0 jika tidak                                |
+        | 9  | Private                | 0 / 1     | 1 jika akun private, 0 jika publik                            |
+        |10  | Threads                | 0 / 1     | 1 jika terhubung dengan Threads, 0 jika tidak                 |
+        |11  | Mutual Friends         | Angka     | Jumlah mutual friend (teman yang sama)                        |
+
+        #### Contoh baris data:
+        `johndoe,John Doe,500,300,25,1,1,1,0,1,50`
+
+        > ✅ Pastikan nama kolom dan format nilai sudah sesuai agar sistem dapat memproses prediksi dengan benar.
+        """)
+
         st.image(Image.open("gambar/data.png"), width=300)
 
         uploaded_file = st.file_uploader("Upload file CSV:", type=["csv"])

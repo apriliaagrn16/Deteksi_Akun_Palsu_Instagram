@@ -85,7 +85,7 @@ if page == "Home":
     ### 📂 Informasi Dataset
 
     Dataset yang digunakan telah dikonversi ke bentuk numerik (0/1 dan angka), dan digunakan untuk melatih model ini.  
-🔗 [Link Dataset](https://www.tapadhirdas.com/das-lab/datasets/limfadd)
+    🔗 [Link Dataset](https://www.tapadhirdas.com/das-lab/datasets/limfadd)
 
     ---
     ### 📊 Evaluasi Model

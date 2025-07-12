@@ -72,6 +72,21 @@ if page == "Home":
     - Jumlah mutual friends
 
     ---
+    ### ⚙️ Cara Menggunakan
+
+    1. Masuk ke tab **Prediction**
+    2. Pilih salah satu metode:
+    - 📤 Upload file CSV
+    - 🔗 Masukkan URL Instagram dan data manual
+    3. Klik tombol prediksi untuk melihat hasilnya
+    4. Unduh hasil dalam bentuk CSV (jika upload file)
+
+    ---
+    ### 📂 Informasi Dataset
+
+    Dataset yang digunakan adalah hasil konversi dari data akun Instagram ke bentuk numerik (0/1 dan angka). File CSV yang digunakan untuk prediksi harus mengikuti format yang telah dijelaskan di tab Prediction.
+
+    ---
     ### 📊 Evaluasi Model
     """)
 

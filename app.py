@@ -132,6 +132,20 @@ elif page == "Prediction":
 
     # === Tab 1: URL Instagram ===
     with tab1:
+        
+        # Fungsi validasi tautan Instagram
+        def is_valid_instagram_url(url):
+            pattern = r"^https:\/\/(www\.)?instagram\.com\/[A-Za-z0-9_.]+\/?$"
+            return re.match(pattern, url) is not None
+
+        # Fungsi ekstraksi username dari URL
+        def get_username_from_url(url):
+            parts = url.strip().split("/")
+            for part in reversed(parts):
+                if part:
+                    return part
+            return None
+            
         st.markdown("### Masukkan Link Akun Instagram")
         ig_url = st.text_input("Contoh: https://www.instagram.com/username/")
         jumlah_post = st.number_input("Jumlah Postingan", min_value=0, max_value=10000, value=0, step=1)

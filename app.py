@@ -11,7 +11,7 @@ from PIL import Image
 import streamlit as st
 from streamlit_option_menu import option_menu
 
-RAPIDAPI_KEY = st.secrets["PILOTERR_API_KEY"]
+#RAPIDAPI_KEY = st.secrets["PILOTERR_API_KEY"]
 
 # ==== KONFIGURASI STREAMLIT ====
 st.set_page_config(page_title="Prediksi Akun Palsu", page_icon="🔍", layout="wide")
@@ -180,7 +180,11 @@ elif page == "Prediction":
                 st.json(data_instagram)
 
             except Exception as e:
-                st.error(f"Gagal mengambil data dari akun: {e}")
+                error_message = str(e)
+                if "400" in error_message or "Bad Request" in error_message:
+                    st.error("Tautan yang Anda masukkan tidak valid atau akun tidak tersedia.")
+                else:
+                    st.error("Terjadi kesalahan saat mengambil data dari API.")
 
     # === Tab 2: Upload CSV ===
     with tab2:
@@ -220,12 +224,22 @@ elif page == "Prediction":
             if st.button("🔍 Lakukan Prediksi"):
                 try:
                     df_pred = df_input.copy()
-                    pred = model.predict(df_pred[features])
-                    df_pred["predict"] = pred
-                    st.success("✅ Prediksi berhasil dilakukan")
-                    st.dataframe(df_pred)
+                    required_features = set(features)
 
-                    csv = df_pred.to_csv(index=False).encode("utf-8")
-                    st.download_button("⬇️ Download Hasil Prediksi", data=csv, file_name="hasil_prediksi.csv", mime="text/csv")
+                    # Validasi kolom sebelum prediksi
+                    if not required_features.issubset(set(df_pred.columns)):
+                        st.error("Format file tidak sesuai. Kolom yang diperlukan tidak ditemukan. Harap unggah file dengan format yang benar.")
+                    else:
+                        pred = model.predict(df_pred[features])
+                        df_pred["predict"] = pred
+                        st.success("✅ Prediksi berhasil dilakukan")
+                        st.dataframe(df_pred)
+
+                        csv = df_pred.to_csv(index=False).encode("utf-8")
+                        st.download_button("⬇️ Download Hasil Prediksi", data=csv, file_name="hasil_prediksi.csv", mime="text/csv")
+
                 except Exception as e:
-                    st.error(f"Terjadi kesalahan saat prediksi: {e}")
+                    st.error("Terjadi kesalahan tak terduga saat prediksi. Pastikan format file sudah benar dan coba lagi.")
+                    # logging untuk developer (opsional)
+                    import logging
+                    logging.error(f"Prediksi Error: {e}")

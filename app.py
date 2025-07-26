@@ -1,6 +1,6 @@
 # ==== IMPORT LIBRARY ====
 import os
-import re
+import logging
 import joblib
 import requests
 import pandas as pd
@@ -182,7 +182,8 @@ elif page == "Prediction":
             except Exception as e:
                 logging.error(f"Error saat prediksi: {e}")
                 st.error("Tautan yang Anda masukkan tidak valid/akun tidak tersedia, atau terjadi kesalahan saat mengambil data dari API.")
-                st.error("Silahkan dicoba lagi atau masukkan link dengan benerar")
+                st.info("Pastikan tautan sesuai format: https://www.instagram.com/username/")
+
 
     # === Tab 2: Upload CSV ===
     with tab2:

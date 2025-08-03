@@ -11,7 +11,7 @@ from PIL import Image
 import streamlit as st
 from streamlit_option_menu import option_menu
 
-#RAPIDAPI_KEY = st.secrets["PILOTERR_API_KEY"]
+RAPIDAPI_KEY = st.secrets["PILOTERR_API_KEY"]
 
 # ==== KONFIGURASI STREAMLIT ====
 st.set_page_config(page_title="Prediksi Akun Palsu", page_icon="🔍", layout="wide")

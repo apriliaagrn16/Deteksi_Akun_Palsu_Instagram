@@ -127,7 +127,7 @@ if page == "Home":
 
 # ==== PAGE: DETECTION ====
 elif page == "Prediction":
-    st.title("🧪 Prediksi Akun Instagram Palsu")
+    st.title("🧪 Prediksi Akun Palsu Instagram")
     tab1, tab2 = st.tabs(["🔗 URL IG", "📤 Upload CSV"])
 
     # === Tab 1: URL Instagram ===
